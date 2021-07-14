@@ -1,27 +1,28 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head> 
-    <title>Getting Started: Serving Web Content</title> 
+    <title>Weather Project</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
 	<br><br><br>
    	<select>
+  		<option>Choose town...</option>
   		<option th:each="town : ${towns}" th:text="${town}"></option>
  	</select>
 	
 	<br><br><br>
 	<br><br><br>
-	<table>
+	<table width="100%" border="1" align="center">
 		<tr>
     		<th>Town</th>
-    		<th>Date<th>
+    		<th>Date</th>
    			<th>Temperature, C</th>
   		</tr>
   		<tr>
-    		<td>Астрахань</td>
-    		<td>1-06-2021</td>
-   			<td>32</td>
+    		<td align="center">Астрахань</td>
+    		<td align="center">1-06-2021</td>
+   			<td align="center">32</td>
   		</tr>
 	
 	</table>

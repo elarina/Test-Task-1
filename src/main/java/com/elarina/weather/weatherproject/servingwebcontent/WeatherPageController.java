@@ -18,7 +18,11 @@ public class WeatherPageController {
 
 	@GetMapping("/weather")
 	public String showWeatherPage(Model model) {
-		
+		addTowns(model);
+		return "weather";
+	}
+	
+	private void addTowns(Model model) {
 		JDBCController controller = new JDBCController(DataSourceConfig.getDataSource());
 		List<Town> townsList = controller.queryTowns();
 		List<String> townNames = new ArrayList<String>();
@@ -26,12 +30,7 @@ public class WeatherPageController {
 			townNames.add(town.getName());
 		}
 		
-		model.addAttribute("towns", townNames);
-		
-		return "weather";
+		model.addAttribute("towns", townNames);	
 	}
-	
-	
-	
 
 }
