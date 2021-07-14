@@ -5,32 +5,23 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <p th:text="'Hello, ' + ${name} + '!'" />
-    
-    <table>
-  		<tr>
-  			<td>Kazan</td>
-  		</tr>
-  		<tr th:each="town : ${towns}">
-  			<td th:text="${town}">Test</td>
-  		</tr>
-    </table>
-       
-    <select>
+	<br><br><br>
+   	<select>
   		<option th:each="town : ${towns}" th:text="${town}"></option>
  	</select>
 	
+	<br><br><br>
 	<br><br><br>
 	<table>
 		<tr>
     		<th>Town</th>
     		<th>Date<th>
-   			<th>Temperature</th>
+   			<th>Temperature, C</th>
   		</tr>
   		<tr>
     		<td>Астрахань</td>
     		<td>1-06-2021</td>
-   			<td>32С</td>
+   			<td>32</td>
   		</tr>
 	
 	</table>
