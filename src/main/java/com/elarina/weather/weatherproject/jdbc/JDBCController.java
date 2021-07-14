@@ -27,10 +27,13 @@ public class JDBCController {
 		
 		String sql = "SELECT name, code FROM towns ORDER BY name";
 		
-		jdbcTemplate.query(
-		        sql, new Object[] {},
-		        (rs, rowNum) -> new Town(rs.getString("name"), rs.getInt("code"))
-		    ).forEach(town -> towns.add(town));
+		List<Map<String, Object>> records = jdbcTemplate.queryForList(sql);
+		
+		for(Map<String, Object> record: records) {
+			String name = (String)record.get("name");
+			int code = (int)record.get("code");
+			towns.add(new Town(name, code));
+		}
 		
 		return towns;
 	}
