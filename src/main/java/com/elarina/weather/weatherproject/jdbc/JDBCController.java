@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.elarina.weather.weatherproject.model.Temperature;
 import com.elarina.weather.weatherproject.model.Town;
 
 
@@ -32,5 +33,18 @@ public class JDBCController {
 		    ).forEach(town -> towns.add(town));
 		
 		return towns;
+	}
+	
+	public List<Temperature> queryAllTemperatures() {
+		List<Temperature> temperatures = new ArrayList<Temperature>();
+		
+		jdbcTemplate.query(
+		        "SELECT date, value, town_code FROM temperatures  "
+		        + "as tm LEFT JOIN towns as tw ON tm.town_code=tw.code "
+		        + "ORDER BY date DESC", new Object[] {},
+		        (rs, rowNum) -> new Temperature(rs.getInt("value"), rs.getDate("date"), rs.getInt("town_code"))
+		    ).forEach(temperature -> temperatures.add(temperature));
+		
+		return temperatures;
 	}
 }

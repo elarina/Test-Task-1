@@ -9,22 +9,24 @@
    	<select>
   		<option>Choose town...</option>
   		<option th:each="town : ${towns}" th:text="${town}"></option>
- 	</select>
+ 	</select>	
 	
 	<br><br><br>
 	<br><br><br>
+	
 	<table width="100%" border="1" align="center">
-		<tr>
-    		<th>Town</th>
-    		<th>Date</th>
-   			<th>Temperature, C</th>
-  		</tr>
-  		<tr>
-    		<td align="center">Астрахань</td>
-    		<td align="center">1-06-2021</td>
-   			<td align="center">32</td>
-  		</tr>
+      <tr>
+        <th>Town</th>
+        <th>Date</th>
+        <th>Temperature, C</th>
+      </tr>
+      <tr th:each="temperature : ${temperatures}">
+        <td align="center" th:text="${temperature.townCode}">Test</td>
+        <td align="center" th:text="${temperature.date}">12-09-2021</td>
+        <td align="center" th:text="${temperature.temp}">39</td>
+      </tr>
+    </table>
 	
-	</table>
+	
 </body>
 </html>

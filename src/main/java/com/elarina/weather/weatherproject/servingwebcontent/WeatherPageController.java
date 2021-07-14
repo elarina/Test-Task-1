@@ -11,19 +11,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.elarina.weather.weatherproject.jdbc.DataSourceConfig;
 import com.elarina.weather.weatherproject.jdbc.JDBCController;
+import com.elarina.weather.weatherproject.model.Temperature;
 import com.elarina.weather.weatherproject.model.Town;
 
 @Controller
 public class WeatherPageController {
-
+	
+	private JDBCController controller = new JDBCController(DataSourceConfig.getDataSource());	
+	
 	@GetMapping("/weather")
 	public String showWeatherPage(Model model) {
 		addTowns(model);
+		addDefaultTemperatures(model);
 		return "weather";
 	}
-	
+
 	private void addTowns(Model model) {
-		JDBCController controller = new JDBCController(DataSourceConfig.getDataSource());
 		List<Town> townsList = controller.queryTowns();
 		List<String> townNames = new ArrayList<String>();
 		for(Town town: townsList){
@@ -31,6 +34,11 @@ public class WeatherPageController {
 		}
 		
 		model.addAttribute("towns", townNames);	
+	}
+	
+	private void addDefaultTemperatures(Model model) {
+		List<Temperature> temperatures = controller.queryAllTemperatures();
+		model.addAttribute("temperatures", temperatures);	
 	}
 
 }
