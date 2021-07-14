@@ -16,7 +16,7 @@ import com.elarina.weather.weatherproject.model.Town;
 
 public class JDBCController {
 	
-	JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplate;
 	
 	public JDBCController(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
