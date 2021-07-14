@@ -30,14 +30,12 @@ public class WeatherPageController {
 	@PostMapping("/weather")
 	public String greetingSubmit(@ModelAttribute Town town, Model model) {
 	    model.addAttribute("city", town);
-	    System.out.println("Town Name: " + town.getName());
-	    
 	    addTowns(model);
 	    
 	    if (town.getName().equals("")) 
 	    	addDefaultTemperatures(model);
 	    else
-	    	addTempratureForChoosenCity(model, town);
+	    	addTempraturesForChoosenCity(model, town);
 	    
 	    return "weather";
 	}
@@ -58,7 +56,7 @@ public class WeatherPageController {
 	}
 	
 
-	private void addTempratureForChoosenCity(Model model, Town town) {
+	private void addTempraturesForChoosenCity(Model model, Town town) {
 		List<TableRecord> tableRecords = controller.queryTemperaturesForTown(town);
 		model.addAttribute("records", tableRecords);
 	}

@@ -7,10 +7,10 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.elarina.weather.weatherproject.model.TableRecord;
-import com.elarina.weather.weatherproject.model.Temperature;
 import com.elarina.weather.weatherproject.model.Town;
 
 
@@ -74,5 +74,25 @@ public class JDBCController {
 		}
 	
 		return tableRecords;
+	}
+	
+	public Double getAverageTemperatureForTown(int code) {
+		String sql = "SELECT AVG(value) FROM towns AS tw "
+				+ "INNER JOIN temperatures AS tm "
+				+ "ON tw.code = tm.town_code "
+				+ "WHERE code= " + code 
+				+ " GROUP BY code";
+		
+		Double averageTemperature = 0.0;
+		
+		try {
+			averageTemperature = (Double)jdbcTemplate.queryForObject(sql, Class.forName("java.lang.Double"));
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} 
+		
+		return averageTemperature;
 	}
 }
