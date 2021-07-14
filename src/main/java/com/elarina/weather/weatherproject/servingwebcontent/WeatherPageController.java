@@ -14,29 +14,24 @@ import com.elarina.weather.weatherproject.jdbc.JDBCController;
 import com.elarina.weather.weatherproject.model.Town;
 
 @Controller
-public class GreetingController {
+public class WeatherPageController {
 
-	@GetMapping("/greeting")
-	public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, 
-			Model model) {
-		
-		model.addAttribute("name", name);
+	@GetMapping("/weather")
+	public String showWeatherPage(Model model) {
 		
 		JDBCController controller = new JDBCController(DataSourceConfig.getDataSource());
 		List<Town> townsList = controller.queryTowns();
 		List<String> townNames = new ArrayList<String>();
-		System.out.println("towns: \n");
 		for(Town town: townsList){
 			townNames.add(town.getName());
-			System.out.println(town + " \n");
 		}
-		
-
-		
 		
 		model.addAttribute("towns", townNames);
 		
-		return "greeting";
+		return "weather";
 	}
+	
+	
+	
 
 }
