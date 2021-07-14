@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Getting Started: Serving Web Content</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <p th:text="'Hello, ' + ${name} + '!'" />
+    
+    <table>
+  		<tr>
+  			<td>Kazan</td>
+  		</tr>
+  		<tr th:each="town : ${towns}">
+  			<td th:text="${town}">Test</td>
+  		</tr>
+    </table>
+       
+    <select>
+  		<option th:each="town : ${towns}" th:text="${town}"></option>
+ 	</select>
+	
+	<br><br><br>
+	<table>
+		<tr>
+    		<th>Town</th>
+    		<th>Date<th>
+   			<th>Temperature</th>
+  		</tr>
+  		<tr>
+    		<td>Астрахань</td>
+    		<td>1-06-2021</td>
+   			<td>32С</td>
+  		</tr>
+	
+	</table>
+</body>
+</html>
