@@ -20,10 +20,10 @@
         <th>Date</th>
         <th>Temperature, C</th>
       </tr>
-      <tr th:each="temperature : ${temperatures}">
-        <td align="center" th:text="${temperature.townCode}">Test</td>
-        <td align="center" th:text="${temperature.date}">12-09-2021</td>
-        <td align="center" th:text="${temperature.temp}">39</td>
+      <tr th:each="record : ${records}">
+        <td align="center" th:text="${record.townName}">Test</td>
+        <td align="center" th:text="${record.date}">12-09-2021</td>
+        <td align="center" th:text="${record.temperature}">39</td>
       </tr>
     </table>
 	

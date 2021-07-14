@@ -2,16 +2,14 @@ package com.elarina.weather.weatherproject.servingwebcontent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.elarina.weather.weatherproject.jdbc.DataSourceConfig;
 import com.elarina.weather.weatherproject.jdbc.JDBCController;
-import com.elarina.weather.weatherproject.model.Temperature;
+import com.elarina.weather.weatherproject.model.TableRecord;
 import com.elarina.weather.weatherproject.model.Town;
 
 @Controller
@@ -37,8 +35,8 @@ public class WeatherPageController {
 	}
 	
 	private void addDefaultTemperatures(Model model) {
-		List<Temperature> temperatures = controller.queryAllTemperatures();
-		model.addAttribute("temperatures", temperatures);	
+		List<TableRecord> tableRecords = controller.queryAllTemperatures();
+		model.addAttribute("records", tableRecords);	
 	}
 
 }
