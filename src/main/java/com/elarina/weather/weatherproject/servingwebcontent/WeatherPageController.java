@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.elarina.weather.weatherproject.jdbc.DataSourceConfig;
 import com.elarina.weather.weatherproject.jdbc.JDBCController;
@@ -21,7 +23,23 @@ public class WeatherPageController {
 	public String showWeatherPage(Model model) {
 		addTowns(model);
 		addDefaultTemperatures(model);
+		model.addAttribute("city", new Town());
 		return "weather";
+	}
+	
+	@PostMapping("/weather")
+	public String greetingSubmit(@ModelAttribute Town town, Model model) {
+	    model.addAttribute("city", town);
+	    System.out.println("Town Name: " + town.getName());
+	    
+	    addTowns(model);
+	    
+	    if (town.getName().equals("")) 
+	    	addDefaultTemperatures(model);
+	    else
+	    	addTempratureForChoosenCity(model, town);
+	    
+	    return "weather";
 	}
 
 	private void addTowns(Model model) {
@@ -37,6 +55,12 @@ public class WeatherPageController {
 	private void addDefaultTemperatures(Model model) {
 		List<TableRecord> tableRecords = controller.queryAllTemperatures();
 		model.addAttribute("records", tableRecords);	
+	}
+	
+
+	private void addTempratureForChoosenCity(Model model, Town town) {
+		List<TableRecord> tableRecords = controller.queryTemperaturesForTown(town);
+		model.addAttribute("records", tableRecords);
 	}
 
 }

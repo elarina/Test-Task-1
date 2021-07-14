@@ -6,10 +6,13 @@
 </head>
 <body>
 	<br><br><br>
-   	<select>
-  		<option>Choose town...</option>
-  		<option th:each="town : ${towns}" th:text="${town}"></option>
- 	</select>	
+	<form action="#" th:action="@{/weather}" th:object="${city}" method="post">
+   	<select th:field="*{name}" id="name">
+  		<option value="">Choose town...</option>
+  		<option th:each="town : ${towns}" th:text="${town}" th:value="${town}"></option>
+ 	</select>
+ 	<input type="submit" value="Submit" /> 
+ 	</form>	
 	
 	<br><br><br>
 	<br><br><br>

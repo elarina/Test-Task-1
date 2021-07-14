@@ -53,4 +53,23 @@ public class JDBCController {
 	
 		return tableRecords;
 	}
+	
+	public List<TableRecord> queryTemperaturesForTown(Town town) {
+		List<TableRecord> tableRecords = new ArrayList<TableRecord>();
+		
+		String sql = "SELECT date, value, name FROM temperatures  "
+		        + "as tm LEFT JOIN towns as tw ON tm.town_code=tw.code where name = '" + town.getName() + "'" 
+		        + " ORDER BY date DESC";
+				
+		List<Map<String, Object>> records = jdbcTemplate.queryForList(sql);
+		
+		for(Map<String, Object> record: records) {
+			Date date = (Date)record.get("date");
+			int temperature = (int)record.get("value");
+			String townName = (String)record.get("name");
+			tableRecords.add(new TableRecord(townName, date, temperature));
+		}
+	
+		return tableRecords;
+	}
 }

@@ -4,6 +4,12 @@ public class Town {
 	private String name;
 	private int code;
 	
+	public Town() {}
+	
+	public Town(String name) {
+		this.name = name;
+	}
+	
 	public Town(String name, int code) {
 		this.name = name;
 		this.code = code;	
