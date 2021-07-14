@@ -1,5 +1,7 @@
 package com.elarina.weather.weatherproject.jdbc;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,6 +9,9 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.apache.tomcat.jni.File;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -94,5 +99,37 @@ public class JDBCController {
 		} 
 		
 		return averageTemperature;
+	}
+	
+	public void getTownsWithAverageTemperatureMoreThan(int temperature) {
+		String sql = "select name from (select name, avg(value) from towns "
+				+ "inner join temperatures "
+				+ "on code = town_code "
+				+ "group by name "
+				+ "having avg(value) > " + temperature  + ") averages";
+		
+		List<Map<String, Object>> records = jdbcTemplate.queryForList(sql);
+		JSONArray jsonArray = new JSONArray();
+
+		for(Map<String, Object> record: records) {
+			String townName = (String)record.get("name");			
+			jsonArray.put(townName);	
+		}
+	
+		JSONObject obj = jsonArray.toJSONObject(jsonArray);
+		FileWriter file = null;
+		try {
+			file = new FileWriter("src/main/resources/towns.json");
+			file.write(obj.toString(1));
+		} catch (IOException e) {			
+			e.printStackTrace();
+		} finally {
+			try {
+				file.flush();
+				file.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
