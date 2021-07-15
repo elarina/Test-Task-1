@@ -26,7 +26,7 @@ public class WeatherPageController {
 		model.addAttribute("city", new Town());
 		return "weather";
 	}
-	
+
 	@PostMapping("/weather")
 	public String greetingSubmit(@ModelAttribute Town town, Model model) {
 	    model.addAttribute("city", town);

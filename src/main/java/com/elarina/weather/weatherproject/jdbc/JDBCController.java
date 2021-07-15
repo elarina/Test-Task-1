@@ -101,35 +101,21 @@ public class JDBCController {
 		return averageTemperature;
 	}
 	
-	public void getTownsWithAverageTemperatureMoreThan(int temperature) {
-		String sql = "select name from (select name, avg(value) from towns "
+	public List<Town> getTownsWithAverageTemperatureMoreThan(int temperature) {
+		String sql = "select name, code from (select name, code, avg(value) from towns "
 				+ "inner join temperatures "
 				+ "on code = town_code "
-				+ "group by name "
+				+ "group by name, code "
 				+ "having avg(value) > ?) averages";
 		
 		List<Map<String, Object>> records = jdbcTemplate.queryForList(sql, temperature);
-		JSONArray jsonArray = new JSONArray();
+		List<Town> towns = new ArrayList<Town>();
 
 		for(Map<String, Object> record: records) {
-			String townName = (String)record.get("name");			
-			jsonArray.put(townName);	
+			String townName = (String)record.get("name");
+			Integer townCode = (Integer)record.get("code");
+			towns.add(new Town(townName, townCode));
 		}
-	
-		JSONObject obj = jsonArray.toJSONObject(jsonArray);
-		FileWriter file = null;
-		try {
-			file = new FileWriter("src/main/resources/towns.json");
-			file.write(obj.toString(1));
-		} catch (IOException e) {			
-			e.printStackTrace();
-		} finally {
-			try {
-				file.flush();
-				file.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		return towns;
 	}
 }
