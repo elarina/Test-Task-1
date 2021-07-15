@@ -9,7 +9,6 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.apache.tomcat.jni.File;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.dao.DataAccessException;
@@ -91,11 +90,8 @@ public class JDBCController {
 		
 		Double averageTemperature = 0.0;
 		
-		try {
-			
+		try {			
 			averageTemperature = (Double)jdbcTemplate.queryForObject(sql, Class.forName("java.lang.Double"), code);
-			
-//			averageTemperature = (Double)jdbcTemplate.queryForObject(sql, Class.forName("java.lang.Double"));
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -113,8 +109,6 @@ public class JDBCController {
 				+ "having avg(value) > ?) averages";
 		
 		List<Map<String, Object>> records = jdbcTemplate.queryForList(sql, temperature);
-		
-//		List<Map<String, Object>> records = jdbcTemplate.queryForList(sql);
 		JSONArray jsonArray = new JSONArray();
 
 		for(Map<String, Object> record: records) {
