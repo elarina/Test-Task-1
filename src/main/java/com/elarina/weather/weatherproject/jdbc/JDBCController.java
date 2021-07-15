@@ -66,10 +66,11 @@ public class JDBCController {
 		List<TableRecord> tableRecords = new ArrayList<TableRecord>();
 		
 		String sql = "SELECT date, value, name FROM temperatures  "
-		        + "as tm LEFT JOIN towns as tw ON tm.town_code=tw.code where name = '" + town.getName() + "'" 
+		        + "as tm LEFT JOIN towns as tw ON tm.town_code=tw.code where name = ? " 
 		        + " ORDER BY date DESC";
 				
-		List<Map<String, Object>> records = jdbcTemplate.queryForList(sql);
+		
+		List<Map<String, Object>> records = jdbcTemplate.queryForList(sql, town.getName());
 		
 		for(Map<String, Object> record: records) {
 			Date date = (Date)record.get("date");
@@ -85,13 +86,16 @@ public class JDBCController {
 		String sql = "SELECT AVG(value) FROM towns AS tw "
 				+ "INNER JOIN temperatures AS tm "
 				+ "ON tw.code = tm.town_code "
-				+ "WHERE code= " + code 
-				+ " GROUP BY code";
+				+ "WHERE code = ? "  
+				+ "GROUP BY code";
 		
 		Double averageTemperature = 0.0;
 		
 		try {
-			averageTemperature = (Double)jdbcTemplate.queryForObject(sql, Class.forName("java.lang.Double"));
+			
+			averageTemperature = (Double)jdbcTemplate.queryForObject(sql, Class.forName("java.lang.Double"), code);
+			
+//			averageTemperature = (Double)jdbcTemplate.queryForObject(sql, Class.forName("java.lang.Double"));
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -106,9 +110,11 @@ public class JDBCController {
 				+ "inner join temperatures "
 				+ "on code = town_code "
 				+ "group by name "
-				+ "having avg(value) > " + temperature  + ") averages";
+				+ "having avg(value) > ?) averages";
 		
-		List<Map<String, Object>> records = jdbcTemplate.queryForList(sql);
+		List<Map<String, Object>> records = jdbcTemplate.queryForList(sql, temperature);
+		
+//		List<Map<String, Object>> records = jdbcTemplate.queryForList(sql);
 		JSONArray jsonArray = new JSONArray();
 
 		for(Map<String, Object> record: records) {
